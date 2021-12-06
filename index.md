@@ -1,11 +1,12 @@
 # Laser Harp Final Project
 
-This is my write-up of the final project I completed for MUMT306 at McGill University in Fall 2021. 
+This is my write-up of the final project I completed for MUMT306 at McGill University in Fall 2021. A laser harp.
 
 ![Picture](PXL_20211130_035925657_exported_2073.jpg)
 
 ## Demo
 
+[A demo of the project can be found on Youtube](https://www.youtube.com/watch?v=10YoodAaeZ4)
 
 ## Overview
 
