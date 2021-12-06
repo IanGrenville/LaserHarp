@@ -5,7 +5,8 @@ This is my write-up of the final project I completed for MUMT306 at McGill Unive
 ![Picture](PXL_20211130_035925657_exported_2073.jpg)
 
 ## Demo
-![Link to video demo](https://photos.app.goo.gl/Z1BgDftid36kgFjE6)
+
+
 ## Overview
 
 For my final project I designed a Laser Harp. A Laser Harp is a type of digital music interface that uses the placement and positioning of a performers hands relative to a series of laser beams to activate notes and adjust musical control parameters. In my specific implemtation, the harp uses an array of phototransistors to detect the breaking of a laser beam, and a parallel array of ultrasonic distance sensors to detect the precise location of the performers hand relative to the height of the beam. My harp then uses this information to send MIDI signals over a USB connection, which can then be attached to any digital MIDI synthesizer or DAW. 
@@ -42,7 +43,7 @@ Before a performance can begin, the light sensors must be manually tuned corresp
 
 ## Implementation
 
-**The Code For The Project Can Be Found Here: []()**
+**[The Code For The Project Can Be Found Here](code.py)**
 ![Implementation Diagram](operation_diagram.PNG)
 
 Internally the harp operates in the following way: 
