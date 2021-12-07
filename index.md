@@ -10,13 +10,13 @@ This is my write-up of the final project I completed for MUMT306 at McGill Unive
 
 ## Overview
 
-For my final project I designed a Laser Harp. A Laser Harp is a type of digital music interface that uses the placement and positioning of a performers hands relative to a series of laser beams to activate notes and adjust musical control parameters. In my specific implemtation, the harp uses an array of phototransistors to detect the breaking of a laser beam, and a parallel array of ultrasonic distance sensors to detect the precise location of the performers hand relative to the height of the beam. My harp then uses this information to send MIDI signals over a USB connection, which can then be attached to any digital MIDI synthesizer or DAW. 
+For my final project I designed a Laser Harp. A Laser Harp is a type of digital music interface that uses the placement and positioning of a performer's hands relative to a series of laser beams to activate notes and adjust musical control parameters. In my specific implementation, the harp uses an array of phototransistors to detect the breaking of a laser beam, and a parallel array of ultrasonic distance sensors to detect the precise location of the performer's hand relative to the height of the beam. My harp then uses this information to send MIDI signals over a USB connection, which can then be attached to any digital MIDI synthesizer or DAW. 
 
 ### Physical Structure
 
-The harp is approximately two metres wide by half a metre tall, constructed out of wood. On the top of the frame is an array of laser diodes hooked up to a seperate 5V source from the rest of the harp(to prevent the lasers inducing noise for the other sensors). For most of the testing a nine volt battery and converter circuit was used as this secondary power source. The rest of the system was powered through the USB connection to my computer. 
+The harp is approximately two metres wide by half a metre tall, constructed out of wood. On the top of the frame is an array of laser diodes hooked up to a separate 5V source from the rest of the harp (to prevent the lasers inducing noise for the other sensors). For most of the testing a nine volt battery and converter circuit was used as this secondary power source. The rest of the system was powered through the USB connection to my computer. 
 
-On the lower part of the frame, in parallel with the laser array is an array of phototransistors inserted into pre-drilled holes in the wooden frame. These light sensors are then routed through a multiplexer into the main microcontroller. On the top of the lower bar of the frame is also a distance sensor correspond to eight of the ten laser beams(those which play musical notes), as well as an array of breadboards. The breadboards handle connecting the wiring for both the main microcontroller as well as all of the distance sensors. 
+On the lower part of the frame, in parallel with the laser array is an array of phototransistors inserted into pre-drilled holes in the wooden frame. These light sensors are then routed through a multiplexer into the main microcontroller. On the top of the lower bar of the frame are distance sensors corresponding to eight of the ten laser beams(those which play musical notes), as well as an array of breadboards. The breadboards handle connecting the wiring for both the main microcontroller as well as all of the distance sensors. 
 
 ![Physical structure](labelled_hardware.PNG)
 
@@ -38,7 +38,7 @@ The harp maps its beams to notes in the following way:
 ![Notes](notes.png)
 *Seen from the audience side in this case, so left-right are flipped*
 
-Before a performance can begin, the light sensors must be manually tuned corresponding to the ambient light conditions in the space, as well as to adjust for overall variances and unreliabilities with the electronic components. Other setup steps include specifying the scale the notes of the harp will be mapped to. After setup is complete, the performer engages with the instrument through physical gesture and positioning of their hands relative to the beam array. In a continous cycle, the performer recieves musical feedback from the sounds induced by their actions. From this, they can then move their hands horizontally and vertically to play new notes or to control the parameters of existing ones. Once they have done so, the instrument will measure this new set of data points and convert it into MIDI notes, which are sent to the computer which then produces further musical feedback, continuing the loop of the performance. 
+Before a performance can begin, the light sensors must be manually tuned corresponding to the ambient light conditions in the space, as well as to adjust for overall variances and unreliabilities with the electronic components. Other setup steps include specifying the scale the notes of the harp will be mapped to. After setup is complete, the performer engages with the instrument through physical gesture and positioning of their hands relative to the beam array. In a continuous cycle, the performer receives musical feedback from the sounds induced by their actions. From this, they can then move their hands horizontally and vertically to play new notes or to control the parameters of existing ones. Once they have done so, the instrument will measure this new set of data points and convert it into MIDI notes, which are sent to the computer which then produces further musical feedback, continuing the loop of the performance. 
 
 ![Musical Interface Diagram](performance_diagram.PNG)
 
@@ -49,17 +49,17 @@ Before a performance can begin, the light sensors must be manually tuned corresp
 
 Internally the harp operates in the following way: 
 
-It is continously sampling data from its two sources of information, the light sensor array and distance sensor arrays. 
+It is continuously sampling data from its two sources of information, the light sensor array and distance sensor arrays. 
 The data from these is fed into circular buffers of size 100 and 10 respectively. On these buffers, a simple filtering algorithm is applied in order to smooth out
 small fluctuations in the signal. In the case of the light sensors this filtered data is then checked against a pre-tuned set of thresholds, and if the software 
-determines that indeed a laser beam is being blocked by the performers hand, a state in an array is adjusted to increase our confidence that a note is currently being played.
-Next, the software checks(for each beam) whether it believes it is currently broken and combines this with its information about the location of the performers hands to determine whether it should play a note(or adjust an existing note). The Pi Pico then subsequently sends out all of the relevant musical control information over a MIDI connection to the host computer, and repeats its loop by sampling a new set of data.
+determines that indeed a laser beam is being blocked by the performer's hand, a state in an array is adjusted to increase our confidence that a note is currently being played.
+Next, the software checks(for each beam) whether it believes it is currently broken and combines this with its information about the location of the performer's hands to determine whether it should play a note(or adjust an existing note). The Pi Pico then subsequently sends out all of the relevant musical control information over a MIDI connection to the host computer, and repeats its loop by sampling a new set of data.
 
 
 
 ### Hardware
 
-One of my goals for the project was to make use of inexpensive, off-the-shelf electronic components. Of these components, the most expensive was the Pi Pico at $5 for the board (however the total cost of the 10 lasers was significantly higher). For the distance sensors, I used the (very popular and well documented) HRC-S04 ultrasonic time of flight sensors, which use a small speaker and microphone to detect the distance between the sensor and the nearest object facing it. For the laser diodes, I used commerical and low power lasers(the same kind that gets sold for toys) in order to avoid dealing with the safety concerns of using more powerful lasers, with the downside of not having beams that are visible without additional particulate matter added to the air. 
+One of my goals for the project was to make use of inexpensive, off-the-shelf electronic components. Of these components, the most expensive was the Pi Pico at $5 for the board (however the total cost of the 10 lasers was significantly higher). For the distance sensors, I used the (very popular and well documented) HRC-S04 ultrasonic time of flight sensors, which use a small speaker and microphone to detect the distance between the sensor and the nearest object facing it. For the laser diodes, I used low power lasers(the same kind that gets sold for toys) in order to avoid dealing with the safety concerns of using more powerful lasers, with the downside of not having beams that are visible without additional particulate matter added to the air. 
 
 
 - [HRCS04 Distance Sensors](https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf)
@@ -70,7 +70,7 @@ One of my goals for the project was to make use of inexpensive, off-the-shelf el
 
 ### Software
 
-For the software I used Circuitpython running on the Raspberry Pi Pico. I choose this platform due to the large amount of libraries and wide variety of software support for the goals I had. Additionally, it provided an IDE and core library similar to the Arduino platform we had already used in class. Some of the most useful libraries were the distance sensor library, the adafruit_midi library, and the uLab library(which implements a subset of the popular scientific computing package Numpy). However, I found the abilities of the available libraries lacking in many ways and I believe the overhead of the Circuitpython environment contributed quite a bit to the latency compared to if I had written the project purely in something like C or C++. 
+For the software I used Circuitpython running on the Raspberry Pi Pico. I chose this platform due to the large amount of libraries and wide variety of software support for the goals I had. Additionally, it provided an IDE and core library similar to the Arduino platform we had already used in class. Some of the most useful libraries were the distance sensor library, the adafruit_midi library, and the uLab library(which implements a subset of the popular scientific computing package Numpy). However, I found the abilities of the available libraries lacking in many ways and I believe the overhead of the Circuitpython environment contributed quite a bit to the latency compared to if I had written the project purely in something like C or C++. 
 
 - [Circuitpython](https://circuitpython.org/)
 - [adafruit_hcsr04](https://circuitpython.readthedocs.io/projects/hcsr04/en/0.4.4/)
@@ -85,7 +85,7 @@ By far my biggest issues were with the complexity introduced by having a large a
 
 ### Complexity
 
-I think my largest mistake was (possibly oweing to CS biases) expecting the complexity of the hardware to scale only linearly in the number of components. This did not occur. Instead, I used up all of the IO ports on my microcontroller and also needed a multiplexer to further expand my input/output capabilities. Additionally, wire management was very difficult due to the large number of things all needing to connect to a single point while being spread out over two metres of instrument. Ultimately the complexity of the hardware did not lead to much negative effects in the final product, but made the overall construction and work on the project quite difficult.
+I think my biggest mistake was (possibly owing to CS biases) expecting the complexity of the hardware to scale only linearly in the number of components. This did not occur. Instead, I used up all of the IO ports on my microcontroller and also needed a multiplexer to further expand my input/output capabilities. Additionally, wire management was very difficult due to the large number of things all needing to connect to a single point while being spread out over two metres of instrument. Ultimately the complexity of the hardware did not lead to much negative effects in the final product, but made the overall construction and work on the project quite difficult.
 
 ### Filtering
 
@@ -117,7 +117,7 @@ Going forward, I intend to keep working on(and hopefully using) my laser harp, a
 
 - Capacitors to smooth signals at source
 - Higher quality wire connections and solder joints
-- Seperated ground planes, more isolated components
+- Separated ground planes, more isolated components
 - Higher quality sensors
 
 #### Future Software Approaches
